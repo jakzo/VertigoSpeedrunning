@@ -10,12 +10,12 @@ startup {
     {
       "useInGameTime",
       "Use in-game time",
-      false,
+      true,
     },
     {
       "resetWithGameTimer",
       "Reset when game timer resets instead of when visiting the main menu",
-      false,
+      true,
     },
   };
   vars.Helper.Settings.CreateCustom(settingDefs, 1, 3, 2);
@@ -67,14 +67,14 @@ gameTime {
 
 split {
   var didChangeLevel = current.level != old.level;
-  var didLeaveCutscene = old.level == "DreamSequences";
-  var didChangeToNextLevel =
-      didChangeLevel && current.level != "MainMenu" && !didLeaveCutscene;
+  var wasCutscene = old.level == "DreamSequences";
+  var didProceedToNextLevel =
+      didChangeLevel && current.level != "MainMenu" && !wasCutscene;
   var didGameTimePause = !current.isGameTimerRunning &&
       old.isGameTimerRunning && current.gameTime > 0f;
   var didGameFinish = current.level == "Core" && didGameTimePause &&
       !current.isLoadingScreenActive;
-  return didChangeToNextLevel || didGameFinish;
+  return didProceedToNextLevel || didGameFinish;
 }
 
 reset {
